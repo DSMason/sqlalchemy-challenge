@@ -9,13 +9,14 @@ from flask import Flask, jsonify
 
 import simplejson
 
-engine = create_engine("sqlite:///../Resources/hawaii.sqlite")
+engine = create_engine("sqlite:///hawaii.sqlite")
 
 Base = automap_base()
 # reflect the tables
 Base.prepare(engine, reflect=True)
 
-Measurement = Base.classes.measurements
+print(Base.classes.keys())
+Measurement = Base.classes.measurement
 Station = Base.classes.station
 
 app = Flask(__name__)
@@ -42,3 +43,7 @@ def precipitation():
 def stations():
     num_stations = Session.query(Station).count()
     print(num_stations)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
