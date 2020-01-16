@@ -1,4 +1,5 @@
 import numpy as np
+import datetime as dt
 
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
@@ -35,14 +36,25 @@ def welcome():
 @app.route("/api/v1.0/precipitation")
 def precipitation():
     """create dictionary of value and return JSON""" 
-# query dates
-    dates = Session.query(Measurement.dates, Measurement.prcp).\
-        group_by(Measurement.dates).all()
-    print(dates)
-@app.route("/api/v1.0/stations")
-def stations():
-    num_stations = Session.query(Station).count()
-    print(num_stations)
+    session = Session(engine)
+    # query dates
+    date = dt.datetime(2016,8,23)
+
+    last_year = Session.query(Measurement.date, Measurement.prcp).filter(Measurement.date > date).all()
+
+    session.close()
+
+    prcp_dict = {}
+
+    for date, precipitation in last_year:
+        prcp_dict[date] = precipitation
+
+    return jsonify(prcp_dict)
+
+# @app.route("/api/v1.0/stations")
+# def stations():
+#     num_stations = Session.query(Station).count()
+#     print(num_stations)
 
 
 if __name__ == '__main__':
