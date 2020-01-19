@@ -43,7 +43,7 @@ def welcome():
         f"/api/v1.0/<start><br/>"
         f"Returns an Avg, Max, Min temps for start date. <br><br>"
         
-        f"/api/v1.0/<start>/<end>"
+        f"/api/v1.0/<start>/<end><br/>"
         f"Returns Avg, Max, Min tems for a date range"
     )
     #def precip route
